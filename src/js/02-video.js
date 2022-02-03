@@ -4,6 +4,7 @@ import throttle from "lodash.throttle";
 const PLAY_KEY = "videoplayer-current-time";
 const iframeEl = document.querySelector("iframe");
 const playerEl = new Player(iframeEl);
+const getTime = localStorage.getItem(PLAY_KEY);
 
 
 const onPlay = () => {
@@ -16,4 +17,7 @@ const timeEvent = (event) => {
 };
 
 playerEl.on("play", onPlay);
-playerEl.setCurrentTime(localStorage.getItem(PLAY_KEY));
+
+if (getTime) {
+    playerEl.setCurrentTime(getTime);
+};
