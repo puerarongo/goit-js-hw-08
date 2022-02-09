@@ -9,6 +9,8 @@ const getTime = localStorage.getItem(PLAY_KEY);
 
 const onPlay = () => {
     playerEl.on("timeupdate", throttle(timeEvent, 1000)); 
+
+    playerEl.off("play")
 };
 
 const timeEvent = (event) => {
