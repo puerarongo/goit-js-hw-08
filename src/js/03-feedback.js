@@ -1,5 +1,6 @@
 import throttle from "lodash.throttle";
 
+
 // ? HTML tegs
 const formEl = document.querySelector(".feedback-form");
 const emailEl = formEl.querySelector("input");
@@ -8,29 +9,31 @@ const textEl = formEl.querySelector("textarea");
 // *
 const FORM_KEY = "feedback-form-state";
 const getForm = localStorage.getItem(FORM_KEY);
-let formValues = {}
+let formValues = {};
 
 
 // ! function
-const formValidation = () => {
-    //const into = event.target
+const formValidation = (event) => {
+    const into = event.target;
     
-    emailEl.addEventListener("input", (event) => {
-        formValues.email = event.target.value;
-    });
-    
-    textEl.addEventListener("input", (event) => {
-        formValues.message = event.target.value;
-    });
+    if (into.name === "email") {
+        formValues.email = into.value;
+    }
+    else if (into.name === "message") {
+        formValues.message = into.value; 
+    }
 
-    localStorage.setItem(FORM_KEY, JSON.stringify(formValues)); 
+    localStorage.setItem(FORM_KEY, JSON.stringify(formValues));
 };
 
 const buttonAction = (event) => {
     event.preventDefault()
 
+    parseValues = JSON.parse(localStorage.getItem(FORM_KEY))
+
     console.log(parseValues.email, parseValues.message);
     localStorage.removeItem(FORM_KEY);
+    formValues = {};
     emailEl.value = "";
     textEl.value = "";
 }
