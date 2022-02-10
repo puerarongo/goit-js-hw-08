@@ -1,6 +1,5 @@
 import throttle from "lodash.throttle";
 
-
 // ? HTML tegs
 const formEl = document.querySelector(".feedback-form");
 const emailEl = formEl.querySelector("input");
@@ -8,7 +7,6 @@ const textEl = formEl.querySelector("textarea");
 
 // *
 const FORM_KEY = "feedback-form-state";
-const getForm = localStorage.getItem(FORM_KEY);
 let formValues = {};
 
 
@@ -26,10 +24,20 @@ const formValidation = (event) => {
     localStorage.setItem(FORM_KEY, JSON.stringify(formValues));
 };
 
+const initForm = (event) => {
+    const getForm = localStorage.getItem(FORM_KEY);
+    if (getForm) {
+        let parseValues = JSON.parse(getForm);
+        formValues = parseValues;            // ? не getForm, так как это строка, а нужен объект
+        emailEl.value = parseValues.email === undefined ? "" : parseValues.email;
+        textEl.value = parseValues.message === undefined ? "" : parseValues.message;
+    }
+}
+
 const buttonAction = (event) => {
     event.preventDefault()
 
-    parseValues = JSON.parse(localStorage.getItem(FORM_KEY))
+    let parseValues = JSON.parse(localStorage.getItem(FORM_KEY))
 
     console.log(parseValues.email, parseValues.message);
     localStorage.removeItem(FORM_KEY);
@@ -37,14 +45,13 @@ const buttonAction = (event) => {
     emailEl.value = "";
     textEl.value = "";
 }
+// !
 
 // * Events
+initForm()
+
 formEl.addEventListener("input", throttle(formValidation, 500));
 formEl.addEventListener("submit", buttonAction);
 
-let parseValues = JSON.parse(getForm);
 
-if (getForm) {
-    emailEl.value = parseValues.email === undefined ? "" : parseValues.email;
-    textEl.value = parseValues.message === undefined ? "" : parseValues.message;
-};
+
