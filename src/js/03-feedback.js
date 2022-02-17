@@ -11,17 +11,17 @@ let formValues = {};
 
 // ! function
 const formValidation = (event) => {
-    if (into.name === "email") {
+    if (event.target.name === "email") {
         formValues.email = event.target.value;
     }
-    else if (into.name === "message") {
+    else if (event.target.name === "message") {
         formValues.message = event.target.value; 
     }
 
     localStorage.setItem(FORM_KEY, JSON.stringify(formValues));
 };
 
-const initForm = (event) => {
+const initForm = () => {
     const getForm = localStorage.getItem(FORM_KEY);
     if (getForm) {
         let parseValues = JSON.parse(getForm);
